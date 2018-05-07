@@ -22,7 +22,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 public class UploadToS3 {
 	String fileURI;
 	public String upload(String fileName, InputStream fs) {
-		BasicAWSCredentials cred=new BasicAWSCredentials("AKIAIXAF6TBYBPQQYC6Q","QsBwvhdFNGJ0RiuuqgLB8ycfU1YdvQevWC9cBQey");
+		BasicAWSCredentials cred=new BasicAWSCredentials();
 		AmazonS3 s3client= AmazonS3ClientBuilder
 				.standard()
 				.withCredentials(new AWSStaticCredentialsProvider(cred))
