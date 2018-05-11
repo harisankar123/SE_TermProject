@@ -174,6 +174,10 @@ body {font-family: Arial;}
             <h1>Name:"${user.name}"</h1>
             <p>About me:${user.description}.</p>
         </div>
+        
+    </div>
+    <div>
+    	<img align="left" src="${post.postPhoto}" alt="Profile image example" width="200" height="200" style=margin-left:2% />
     </div>
 </div>
 

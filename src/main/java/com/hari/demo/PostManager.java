@@ -60,28 +60,30 @@ public class PostManager {
 		String addr = s3.upload(image.getOriginalFilename(),image.getInputStream());
 		System.out.println(addr);
 		System.out.println("audioUrl");
-		post.setUserId(myId);
+		//post.setUserId(myId);
 		post.setPostPhoto(addr);
 		post.setPostAudio(audioUrl);
 		pRepo.save(post);
 		System.out.println("post save");
-		
+		//mv.addObject("post",post);
 		//mv.addObject("post",post);
 		mv.setViewName("success");
 		return mv;
 		
 	}
-	@PostMapping(value="/profileRedirect")
-	public ModelAndView savePostPorfile(@RequestParam("file") MultipartFile image,
-			@RequestParam("audioUrl") String audioUrl,HttpServletRequest req) {
-		ModelAndView mv = new ModelAndView();
-		String myId= (String)req.getSession().getAttribute("userId");
-		Post post= pRepo.findByUserId(myId);
-		mv.addObject("post",post);
-		System.out.println("**********************"+post.getUserId());
-		return mv;
-		
-	}
+	//@PostMapping(value="/profileRedirect")
+//	public ModelAndView savePostPorfile(@RequestParam("file") MultipartFile image,
+//			@RequestParam("audioUrl") String audioUrl,HttpServletRequest req) {
+//		ModelAndView mv = new ModelAndView();
+//		String myId= (String)req.getSession().getAttribute("userId");
+//		Post post= pRepo.findByUserId(myId);
+//		mv.addObject("post",post);
+//		System.out.println("**********************"+post.getUserId());
+//		return mv;
+//		
+//	}
+//	
+	
 	
 	
 }
