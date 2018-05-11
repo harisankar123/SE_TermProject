@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.omg.CORBA.OMGVMCID;
 
 @Entity
 @Table(name="post")
@@ -22,20 +25,21 @@ public class Post {
 	
 	private String postPhoto;
 	private String postAudio;
-//	@OneToMany(
-//	        mappedBy = "post", 
-//	        cascade = CascadeType.ALL, 
-//	        orphanRemoval = true
-//	    )	
-//	private List<Comment> commentList;
 	
-//	public List<Comment> getCommentList() {
-//		return commentList;
-//	}
-//	public void setCommentList(List<Comment> commentList) {
-//		this.commentList = commentList;
-//	}
-	private String userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="userId")
+	private User userId;	
+	
+	@OneToMany
+	@JoinColumn(name="postId")
+	private List<Comment> comments;
+	
+	public User getUserId() {
+		return userId;
+	}
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
 	public Integer getPostId() {
 		return postId;
 	}
@@ -54,11 +58,11 @@ public class Post {
 	public void setPostAudio(String postAudio) {
 		this.postAudio = postAudio;
 	}
-	public String getUserId() {
-		return userId;
+	public List<Comment> getComments() {
+		return comments;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 }

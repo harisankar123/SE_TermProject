@@ -24,7 +24,7 @@ public class Comment {
 		return post;
 	}
 	public void setPostId(Post postId) {
-		this.post = post;
+		this.post = postId;
 	}
 	
 	public String getCommentText() {

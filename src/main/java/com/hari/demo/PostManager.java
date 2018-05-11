@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 //import java.util.Base64.Decoder;
 import java.util.Base64.Decoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,10 +64,9 @@ public class PostManager {
 		String addr = s3.upload(image.getOriginalFilename(),image.getInputStream());
 		System.out.println(addr);
 		System.out.println("audioUrl");
-		post.setUserId(myId);
+		post.setUserId(urepo.findByUserId(myId));
 		post.setPostPhoto(addr);
-		post.setPostAudio(audioUrl);
-		
+		post.setPostAudio(audioUrl);		
 		pRepo.save(post);
 		mv.addObject("post",post);
 		System.out.println("post save");
@@ -86,6 +86,15 @@ public class PostManager {
 //		return mv;
 //		
 //	}
+	@GetMapping(value="/viewPost")
+	public ModelAndView viewProfile(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView();
+		String userId= (String) request.getSession().getAttribute("userId");
+		System.out.println(userId);
+		User user= urepo.findByUserId(userId);
+		mv.addObject("post", pRepo.findByUserId(user));
+		return mv;
+	}
 	@GetMapping(value="/viewProfile")
 	public ModelAndView handleRedirect(HttpServletRequest request)
 	{
@@ -103,7 +112,7 @@ public class PostManager {
 		//mv.addObject("profile",user.getProfilephoto());
 		mv.addObject("user",user);
 		
-		 List<Post> post=pRepo.findByUserId(user.getUserId());
+		 List<Post> post=pRepo.findByUserId(user);
 		 System.out.println(post);// @formatter:on
 		mv.addObject("post", post);
 		mv.addObject("friends",list);
@@ -113,7 +122,19 @@ public class PostManager {
 		return mv;
 }
 //	
-	
+	@PostMapping(value="/saveComment")
+	public ModelAndView saveComment(@RequestParam("comment") String comment ,
+			@RequestParam("postId") String postId,
+			HttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		Post post=pRepo.findByPostId(Integer.parseInt(postId));
+		Comment cmt=new Comment();
+		cmt.setCommentText(comment);
+		cmt.setPostId(post);
+		cmt.setTimestamp(new Date());
+		mv.setViewName("profile");	
+		return mv;
+	}
 	
 	
 }
