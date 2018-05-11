@@ -3,13 +3,14 @@ package com.hari.demo;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 //import java.util.Base64.Decoder;
 import java.util.Base64.Decoder;
+import java.util.List;
 
-import java.util.Base64;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.persister.entity.Queryable.Declarer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import com.hari.demo.Post;
-import com.hari.demo.PostRepository;
 
 
  
@@ -26,6 +25,10 @@ import com.hari.demo.PostRepository;
 public class PostManager {
 	@Autowired
 	PostRepository pRepo;
+	@Autowired
+	 UserRepository urepo;
+	@Autowired
+	private FriendRepository fRepo;
 	 @Autowired
 	 UploadToS3 s3;
 	@GetMapping(value="/recordAudio")
@@ -60,13 +63,14 @@ public class PostManager {
 		String addr = s3.upload(image.getOriginalFilename(),image.getInputStream());
 		System.out.println(addr);
 		System.out.println("audioUrl");
-		//post.setUserId(myId);
+		post.setUserId(myId);
 		post.setPostPhoto(addr);
 		post.setPostAudio(audioUrl);
+		
 		pRepo.save(post);
+		mv.addObject("post",post);
 		System.out.println("post save");
-		//mv.addObject("post",post);
-		//mv.addObject("post",post);
+		
 		mv.setViewName("success");
 		return mv;
 		
@@ -82,6 +86,32 @@ public class PostManager {
 //		return mv;
 //		
 //	}
+	@GetMapping(value="/viewProfile")
+	public ModelAndView handleRedirect(HttpServletRequest request)
+	{
+		ModelAndView mv = new ModelAndView();
+		String userId= (String) request.getSession().getAttribute("userId");
+		System.out.println(userId);
+		User user= urepo.findByUserId(userId);
+		List<Friend> friend= fRepo.findByUser(user);
+		List<User> list=new ArrayList<User>();
+	   friend.forEach(f ->{
+		  list.add(urepo.findByUserId(f.getFriendId()));
+	   });
+		
+		System.out.println(user);
+		//mv.addObject("profile",user.getProfilephoto());
+		mv.addObject("user",user);
+		
+		 List<Post> post=pRepo.findByUserId(user.getUserId());
+		 System.out.println(post);// @formatter:on
+		mv.addObject("post", post);
+		mv.addObject("friends",list);
+		
+		//mv.addObject("desc",user.getName());
+		mv.setViewName("profile");	
+		return mv;
+}
 //	
 	
 	

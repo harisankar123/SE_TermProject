@@ -161,6 +161,7 @@ body {font-family: Arial;}
 <div class="tab">
   <button class="tablinks" onclick="openCity(event, 'Profilepage')">Profile</button>
   <button class="tablinks" onclick="openCity(event, 'CreatePost')">CreatePost</button>
+  <button class="tablinks" onclick="openCity(event, 'Post')">Post</button>
   <button class="tablinks" onclick="openCity(event, 'Friends')">Friends</button>
 </div>
 
@@ -169,30 +170,56 @@ body {font-family: Arial;}
   <div class="container">
     <div class="fb-profile">
         <img align="left" src="${user.profilephoto}" alt="Profile image example" width="200" height="200" style=margin-left:2% />
-        
         <div class="fb-profile-text">
             <h1>Name:"${user.name}"</h1>
             <p>About me:${user.description}.</p>
-        </div>
-        
-    </div>
-    <div>
-    	<img align="left" src="${post.postPhoto}" alt="Profile image example" width="200" height="200" style=margin-left:2% />
+        </div>   
     </div>
 </div>
-
-
+<div>
+<table class="table table-bordered">
+		<thead>
+					<tr>
+					    <th scope="col">Profile Pic</th>
+						
+					</tr>
+		</thead>
+				<tbody id="tableBody">
+				<c:forEach items="${post}" var="pst">
+      			  <tr>
+      			       <td><img src="${pst.postPhoto}" height="50" width="50" alt="Profile Image" /></td>
+      			    
+                  </tr>
+    			</c:forEach>
+				
+			</table>
+	</div>
 </div>
-
 <div id="CreatePost" class="tabcontent">
-<a href="/recordAudio">
-   <button>Create Post</button>
-</a>
+		<a href="/recordAudio">
+   				<button>Create Post</button>
+			</a>
 </div>
 
 <div id="Friends" class="tabcontent">
-  <h3>Tokyo</h3>
-  <p>Tokyo is the capital of Japan.</p>
+	<table class="table table-bordered">
+				<thead>
+					<tr>
+					    <th scope="col">Profile Pic</th>
+						<th scope="col">Name</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody">
+				<c:forEach items="${friends}" var="user">
+      			  <tr>
+      			       <td><img src="${user.profilephoto}" height="50" width="50" alt="Profile Image" /></td>
+      			      <td> <a href ="/redirectProfile?userId=${user.userId}">
+            		   ${user.name}
+            		   </a></td>
+                  </tr>
+    			</c:forEach>
+				
+			</table>
 </div>
 
 <script>
@@ -211,9 +238,7 @@ function openCity(evt, cityName) {
 }
 </script>
      
-</body>
-</html> 
-		
+
 		
 
 

@@ -104,6 +104,7 @@
       				);
       		var earlierVal = $('[name="myFriends"]').val();
       		$('[name="myFriends"]').val(earlierVal + ele.id + "/" + ele.name + "/");
+      		console.log($('[name="myFriends"]'));
       	});
       	$("#redirectForm").submit();
       });

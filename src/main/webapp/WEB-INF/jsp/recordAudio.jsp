@@ -6,9 +6,8 @@
 <head>
   <meta charset="utf-8">
   <title>Audio-only Example - Record Plugin for Video.js</title>
-
   <link href="https://vjs.zencdn.net/6.6.3/video-js.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/2.1.0/css/videojs.record.css" rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/2.1.0/css/videojs.record.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.2/video.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.4.6/RecordRTC.js"></script>
@@ -72,7 +71,7 @@ player.on('startRecord', function() {
 player.on('finishRecord', function() {
     // the blob object contains the recorded data that
     // can be downloaded by the user, stored on server etc.
-    console.log('finished recording: ', player.recordedData);ote
+    console.log('finished recording: ', player.recordedData);
     var reader =  new FileReader();
     var base64data;
     reader.readAsDataURL(player.recordedData);

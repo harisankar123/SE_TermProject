@@ -1,43 +1,40 @@
 package com.hari.demo;
 
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="user")
 public class User {
 
 	
-		@Id 
+	@Id 
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private String userId;
 	private String name;
+	private String email;
 	private String profilephoto;
 	private String description;
+	@OneToMany(
+	        mappedBy = "user", 
+	        cascade = CascadeType.ALL, 
+	        orphanRemoval = true
+	    )	
+	private List<Friend> friendList;
+	public List<Friend> getFriendList() {
+		return friendList;
+	}
 	
-	
-	
-	/*public User(String userId, String name, String email, String profilephoto, String description,
-			List<Friend> friendList) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		
-		this.profilephoto = profilephoto;
-		this.description = description;
-		this.friendList = friendList;
-	}*/
-	
-	
-	/*public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}*/
-
+	public void setFriendList(List<Friend> friendList) {
+		this.friendList = friendList;	
+		}
 
 	public String getUserId() {
 		return userId;
@@ -64,6 +61,17 @@ public class User {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
+	
 	
 	/*public List<Post> getPostList() {
 		return postList;

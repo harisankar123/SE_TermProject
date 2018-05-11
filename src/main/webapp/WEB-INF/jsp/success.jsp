@@ -4,23 +4,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<script>
-$(document).ready(function(){
-	$('#saveButton').on("click",function(){
-		$("#redirectPost"").submit();
-		
-	});
-});
-</script>
+<title>Post Page</title>
+
 </head>
 <body>
-
+<h2> Post Saved Successfully </h2>
 <br>
-<img src="${addr}"/>
+<img src="${post.postPhoto}" alt="Profile image example" width="200" height="200" style=margin-left:2% />
 <audio autoplay>
-<source src="${audioUrl}" type="audio/webm">
+<source src="${post.postAudio}" type="audio/webm">
 </audio>
+<a href="/viewProfile">
+   View Profile
+</a>
+
 
 
 </body>
