@@ -40,6 +40,9 @@ public class ProfileController {
 	private PostRepository pRepo;
 	
 	@Autowired
+	private CommentRepository cRepo;
+	
+	@Autowired
 	UploadToS3 s3;
 	
 	@GetMapping(value="/")
@@ -78,9 +81,11 @@ public class ProfileController {
 		   friend.forEach(f ->{
 			  list.add(urepo.findByUserId(f.getFriendId()));
 		   });
+		     List<Post> posts= pRepo.findByUserId(user);
 			System.out.println("Myfriends"+myFriends);
 			mv.addObject("user",user);
 			mv.addObject("friends",list);
+			mv.addObject("post", posts);
 			mv.setViewName("profile");
 			return mv;
 			
@@ -124,7 +129,7 @@ public class ProfileController {
 		//mv.addObject("profile",user.getProfilephoto());
 		mv.addObject("user",user);
 		
-		 List<Post> post=pRepo.findByUserId(user.getUserId());
+		 List<Post> post=pRepo.findByUserId(user);
 		 System.out.println(post);// @formatter:on
 		mv.addObject("post", post);
 		mv.addObject("friends",list);
